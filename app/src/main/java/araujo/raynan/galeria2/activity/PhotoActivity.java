@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+
+import java.io.File;
 
 import araujo.raynan.galeria2.R;
 import araujo.raynan.galeria2.Util.Util;
@@ -54,5 +58,13 @@ public class PhotoActivity extends AppCompatActivity {
             default:
                 return  super.onOptionsItemSelected(item);
         }
+    }
+
+    void sharePhoto(){
+        Uri photoURI = FileProvider.getUriForFile(PhotoActivity.this, "araujo.raynan.galeria2.fileprovider", new File(photoPath));
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_STREAM, photoURI);
+        i.setType("image/jpeg");
+        startActivity(i);
     }
 }
